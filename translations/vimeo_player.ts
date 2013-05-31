@@ -29,7 +29,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="47"/>
+        <location filename="../assets/main.qml" line="59"/>
         <source>Search tab contents</source>
         <translation type="unfinished"></translation>
     </message>

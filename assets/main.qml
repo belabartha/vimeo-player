@@ -42,6 +42,18 @@ TabbedPane {
         Page {
             id: searchTab
             Container {
+                Container {
+                    layout: DockLayout {
+
+                    }
+                    TextField {
+                        horizontalAlignment: HorizontalAlignment.Center
+                        verticalAlignment: VerticalAlignment.Top
+                        input {
+                            submitKey: SubmitKey.Search
+                        }
+                    }
+                }
                 // define tab content here
                 Label {
                     text: qsTr("Search tab contents")
