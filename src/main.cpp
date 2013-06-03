@@ -10,10 +10,23 @@
 // this feature is enabled by default in the debug build only
 #include <Qt/qdeclarativedebug.h>
 
+// TEMP
+#include "Searcher.hpp"
+
 using namespace bb::cascades;
+
+// used to output debug messages when not in debug mode
+void myMessageOutput(QtMsgType type, const char* msg) {
+	Q_UNUSED(type);
+	fprintf(stdout, "%s\n", msg);
+	fflush(stdout);
+}
 
 Q_DECL_EXPORT int main(int argc, char **argv)
 {
+	// see above!
+	qInstallMsgHandler(myMessageOutput);
+
     // this is where the server is started etc
     Application app(argc, argv);
 
@@ -24,6 +37,9 @@ Q_DECL_EXPORT int main(int argc, char **argv)
     if (translator.load(filename, "app/native/qm")) {
         app.installTranslator( &translator );
     }
+
+    Searcher *searcher = new Searcher();
+
 
     // create the application pane object to init UI etc.
     new ApplicationUI(&app);

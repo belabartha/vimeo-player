@@ -4,6 +4,7 @@ BASEDIR =  $$quote($$_PRO_FILE_PWD_)
 device {
     CONFIG(debug, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/Searcher.cpp) \
+                 $$quote($$BASEDIR/src/VimeoAuth.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request.cpp) \
@@ -15,6 +16,7 @@ device {
                  $$quote($$BASEDIR/src/oauth/kqoauthutils.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/Searcher.hpp) \
+                 $$quote($$BASEDIR/src/VimeoAuth.h) \
                  $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request.h) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request_p.h) \
@@ -33,6 +35,7 @@ device {
 
     CONFIG(release, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/Searcher.cpp) \
+                 $$quote($$BASEDIR/src/VimeoAuth.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request.cpp) \
@@ -44,6 +47,7 @@ device {
                  $$quote($$BASEDIR/src/oauth/kqoauthutils.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/Searcher.hpp) \
+                 $$quote($$BASEDIR/src/VimeoAuth.h) \
                  $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request.h) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request_p.h) \
@@ -64,6 +68,7 @@ device {
 simulator {
     CONFIG(debug, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/Searcher.cpp) \
+                 $$quote($$BASEDIR/src/VimeoAuth.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request.cpp) \
@@ -75,6 +80,7 @@ simulator {
                  $$quote($$BASEDIR/src/oauth/kqoauthutils.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/Searcher.hpp) \
+                 $$quote($$BASEDIR/src/VimeoAuth.h) \
                  $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request.h) \
                  $$quote($$BASEDIR/src/oauth/kqoauth2request_p.h) \

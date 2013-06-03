@@ -7,24 +7,44 @@
 
 #include "Searcher.hpp"
 #include <QUrl>
+#include "VimeoAuth.h"
 
 using namespace bb::cascades;
 using namespace bb::data;
 
-Searcher::Searcher(){
+Searcher::Searcher() {
+
+	VimeoAuth *auth = VimeoAuth::instance();
+
+	connect(auth, SIGNAL(loginComplete(bool)), this, SLOT(onLoginResponse(bool)));
+	VimeoAuth::instance()->getAccess();
+	disconnect(auth, SIGNAL(loginComplete(bool)),this,SLOT(onLoginResponse(bool)));
+
 	m_model = new GroupDataModel();
 	//m_dataSource = new bb::data::DataSource();// DataSource();
 
 	m_model->setGrouping(ItemGrouping::None);
 	//m_dataSource->setQuery(QLatin1String("/rsp/videos"));
 
-    connect(m_dataSource, SIGNAL(dataLoaded(QVariant)), this, SLOT(dataLoaded(QVariant)));
+    //connect(m_dataSource, SIGNAL(dataLoaded(QVariant)), this, SLOT(dataLoaded(QVariant)));
 }
 
 void Searcher::dataLoaded(const QVariant &data)
 {
     m_model->clear();
     m_model->insertList(data.toList());
+}
+
+void Searcher::onLoginResponse(bool success) {
+	if(success) {
+		qDebug() << "Vimeo login Succeeded!";
+	} else {
+		qDebug() << "Vimeo login failure!";
+	}
+
+	VimeoAuth *auth = VimeoAuth::instance();
+
+	disconnect(auth, SIGNAL(loginComplete(bool)),this,SLOT(onLoginResponse(bool)));
 }
 
 Searcher::~Searcher() {

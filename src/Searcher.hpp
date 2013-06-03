@@ -12,7 +12,6 @@
 #include <bb/cascades/GroupDataModel>
 #include <bb/data/DataSource>
 
-
 class Searcher: public QObject {
 	Q_OBJECT
 public:
@@ -21,12 +20,12 @@ public:
 
     Q_PROPERTY(bb::cascades::GroupDataModel* model READ model CONSTANT)
     Q_PROPERTY(QString searchString READ searchString WRITE setSearchString NOTIFY searchStringChanged)
-
 Q_SIGNALS:
     void searchStringChanged();
 
 private Q_SLOTS:
     void dataLoaded(const QVariant &data);
+	void onLoginResponse(bool success);
 
 private:
 	bb::cascades::GroupDataModel *m_model;
