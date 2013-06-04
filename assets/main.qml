@@ -28,32 +28,11 @@ TabbedPane {
     }
     Tab {
         title: qsTr("Search")
-        Page {
-            id: searchTab
-            Container {
-                Container {
-                    layout: DockLayout {
-
-                    }
-                    TextField {
-                        horizontalAlignment: HorizontalAlignment.Center
-                        verticalAlignment: VerticalAlignment.Top
-                        input {
-                            submitKey: SubmitKey.Search
-                        }
-                    }
-                }
-                // define tab content here
-                Label {
-                    text: qsTr("Search tab contents")
-                    horizontalAlignment: HorizontalAlignment.Center
-                    textStyle {
-                        base: SystemDefaults.TextStyles.TitleText
-                    }
-                }
-            }
+        SearchView {
+            
         }
     }
+
     onCreationCompleted: {
         // this slot is called when declarative scene is created
         // write post creation initialization here

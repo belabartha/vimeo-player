@@ -13,6 +13,7 @@
 #include <QtCore>
 #include <QtCore/QObject>
 #include <QSettings>
+#include <QUrl>
 
 #include <oauth/kqoauthmanager.h>
 #include <oauth/kqoauthrequest_xauth.h>
@@ -23,6 +24,8 @@ class VimeoAuth: public QObject {
 public:
 	VimeoAuth();
 	virtual ~VimeoAuth();
+
+	void addAuthStrings(QUrl *url);
 
 	void getAccess();
 	bool checkToken();

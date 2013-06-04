@@ -32,6 +32,16 @@ VimeoAuth* VimeoAuth::instance() {
 	return m_instance;
 }
 
+void VimeoAuth::addAuthStrings(QUrl *url) {
+
+    url->addQueryItem(QLatin1String("oauth_consumer_key"), CONSUMER_KEY);
+    url->addQueryItem(QLatin1String("oauth_version"), QLatin1String("1.0"));
+    url->addQueryItem(QLatin1String("oauth_signature_method"), QLatin1String("HMAC-SHA1"));
+    url->addQueryItem(QLatin1String("oauth_timestamp"), QLatin1String("HMAC-SHA1"));
+    url->addQueryItem(QLatin1String("oauth_nonce"), QLatin1String("HMAC-SHA1"));
+    url->addQueryItem(QLatin1String("oauth_signature"), QLatin1String("HMAC-SHA1"));
+}
+
 void VimeoAuth::onTemporaryTokenReceived(QString token, QString tokenSecret)
 {
     qDebug() << "Temporary token received: " << token << tokenSecret;
@@ -39,9 +49,9 @@ void VimeoAuth::onTemporaryTokenReceived(QString token, QString tokenSecret)
     QUrl userAuthURL("https://vimeo.com/oauth/authorize");
 
     if( oauthManager->lastError() == KQOAuthManager::NoError) {
-        qDebug() << "Asking for user's permission to access protected resources. Opening URL: " << userAuthURL;
-        /*QUrl openUrl = */oauthManager->getUserAuthorization(userAuthURL);
-        //emit urlReady(openUrl);
+        QUrl openUrl = oauthManager->getUserAuthorizationUrl(userAuthURL);
+        qDebug() << "Asking for user's permission to access protected resources. Opening URL: " << openUrl;
+        emit urlReady(openUrl);
     }
 }
 
@@ -90,7 +100,7 @@ void VimeoAuth::getAccess()
 {
     connect(oauthManager, SIGNAL(temporaryTokenReceived(QString,QString)), this, SLOT(onTemporaryTokenReceived(QString, QString)));
     connect(oauthManager, SIGNAL(authorizationReceived(QString,QString)), this, SLOT( onAuthorizationReceived(QString, QString)));
-    connect(oauthManager, SIGNAL(accessTokenReceived(QString,QString)), this, SLOT(onAccessTokenReceived(QString,QString)));
+    connect(oauthManager, SIGNAL(accessTokenReceived(QString,QString)), this, SLOT(onAccessTokenReceived(QString, QString)));
     connect(oauthManager, SIGNAL(requestReady(QByteArray)), this, SLOT(onRequestReady(QByteArray)));
 
     oauthRequest->initRequest(KQOAuthRequest::TemporaryCredentials, QUrl("https://vimeo.com/oauth/request_token"));

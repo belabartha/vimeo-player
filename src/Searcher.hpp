@@ -11,9 +11,14 @@
 #include <QtCore/qobject.h>
 #include <bb/cascades/GroupDataModel>
 #include <bb/data/DataSource>
+#include <bb/cascades/WebView>
+#include <bb/cascades/CustomControl>
+#include <bb/cascades/QmlDocument>
 
-class Searcher: public QObject {
-	Q_OBJECT
+using namespace bb::cascades;
+
+class Searcher: public CustomControl {
+	//Q_OBJECT
 public:
 	Searcher();
 	virtual ~Searcher();
@@ -26,16 +31,19 @@ Q_SIGNALS:
 private Q_SLOTS:
     void dataLoaded(const QVariant &data);
 	void onLoginResponse(bool success);
+	void setUrl(QUrl authUrl);
 
 private:
-	bb::cascades::GroupDataModel *m_model;
+	GroupDataModel *m_model;
+	WebView *m_webView;
 	bb::data::DataSource *m_dataSource;
     QString m_searchString;
+
 
 	QString searchString() const;
 	void setSearchString(const QString &searchString);
 
-    bb::cascades::GroupDataModel* model() const;
+    GroupDataModel* model() const;
 };
 
 #endif /* SEARCHER_HPP_ */

@@ -14,11 +14,19 @@ using namespace bb::data;
 
 Searcher::Searcher() {
 
+	QmlDocument *qml = QmlDocument::create("asset:///twitterlogin.qml");
+	qml->setContextProperty("loginLayout", this);
+
+	Control *root = qml->createRootObject<Control>();
+	this->setRoot(root);
+
 	VimeoAuth *auth = VimeoAuth::instance();
 
 	connect(auth, SIGNAL(loginComplete(bool)), this, SLOT(onLoginResponse(bool)));
+	connect(auth, SIGNAL(urlReady(QUrl)), this, SLOT(setUrl(QUrl)));
 	VimeoAuth::instance()->getAccess();
 	disconnect(auth, SIGNAL(loginComplete(bool)),this,SLOT(onLoginResponse(bool)));
+	//disconnect(auth, SIGNAL(urlReady(QUrl)), this, SLOT(setUrl(QUrl)));
 
 	m_model = new GroupDataModel();
 	//m_dataSource = new bb::data::DataSource();// DataSource();
@@ -27,6 +35,11 @@ Searcher::Searcher() {
 	//m_dataSource->setQuery(QLatin1String("/rsp/videos"));
 
     //connect(m_dataSource, SIGNAL(dataLoaded(QVariant)), this, SLOT(dataLoaded(QVariant)));
+}
+
+void Searcher::setUrl(QUrl authUrl) {
+	m_webView = this->root()->findChild<WebView*>("m_webView");
+	m_webView->setUrl(authUrl);
 }
 
 void Searcher::dataLoaded(const QVariant &data)
@@ -78,7 +91,7 @@ void Searcher::setSearchString(const QString &searchString) {
        return;
 
     m_searchString = searchString;
-    emit searchStringChanged();
+    //emit searchStringChanged();
 
     //m_dataSource-setSource(assembleSearchURL(m_searchString));
     //m_dataSource->load();
