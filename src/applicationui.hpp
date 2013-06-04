@@ -3,6 +3,7 @@
 #define ApplicationUI_HPP_
 
 #include <QObject>
+#include "VimeoManager.h"
 
 namespace bb { namespace cascades { class Application; }}
 
@@ -17,6 +18,9 @@ class ApplicationUI : public QObject
 public:
     ApplicationUI(bb::cascades::Application *app);
     virtual ~ApplicationUI() {}
+
+private:
+	VimeoManager * vimeoManager;
 };
 
 #endif /* ApplicationUI_HPP_ */

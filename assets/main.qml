@@ -22,19 +22,8 @@ TabbedPane {
     }
     Tab {
         title: qsTr("Channels")
-        Page {
-            id: channelsTab
+        ChannelView {
             
-            Container {
-                // define tab content here
-                Label {
-                    text: qsTr("Channels tab contents")
-                    horizontalAlignment: HorizontalAlignment.Center
-                    textStyle {
-                        base: SystemDefaults.TextStyles.TitleText
-                    }
-                }
-            }
         }
     }
     Tab {
