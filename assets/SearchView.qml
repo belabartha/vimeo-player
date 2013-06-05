@@ -42,8 +42,9 @@ Page {
                 Container {
                     WebView {
                         id: webView
-                        objectName: "m_webView"
+                        objectName: "webView"
                         onUrlChanged: {
+                            console.log("QML: loginView should be opened shortly...");
                             loginView.open();
                         }
                     }
@@ -51,4 +52,8 @@ Page {
             }
         }
     ]
+    onCreationCompleted: {
+        console.log("QML: set WebView");
+        vimeoSearcher.webView = webView;
+    }
 }

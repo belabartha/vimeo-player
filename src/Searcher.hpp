@@ -18,17 +18,18 @@
 using namespace bb::cascades;
 
 class Searcher: public CustomControl {
-	//Q_OBJECT
+	Q_OBJECT
+
+	Q_PROPERTY(bb::cascades::GroupDataModel* model READ model CONSTANT)
+	Q_PROPERTY(QString searchString READ searchString WRITE setSearchString NOTIFY searchStringChanged)
+	Q_PROPERTY(QObject* webView READ webView WRITE setWebView)
 public:
 	Searcher();
 	virtual ~Searcher();
-
-    Q_PROPERTY(bb::cascades::GroupDataModel* model READ model CONSTANT)
-    Q_PROPERTY(QString searchString READ searchString WRITE setSearchString NOTIFY searchStringChanged)
-Q_SIGNALS:
+signals:
     void searchStringChanged();
 
-private Q_SLOTS:
+private slots:
     void dataLoaded(const QVariant &data);
 	void onLoginResponse(bool success);
 	void setUrl(QUrl authUrl);
@@ -39,6 +40,8 @@ private:
 	bb::data::DataSource *m_dataSource;
     QString m_searchString;
 
+    QObject* webView();
+    void setWebView(QObject *webView);
 
 	QString searchString() const;
 	void setSearchString(const QString &searchString);

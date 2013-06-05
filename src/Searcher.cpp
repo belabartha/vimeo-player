@@ -14,19 +14,15 @@ using namespace bb::data;
 
 Searcher::Searcher() {
 
-	QmlDocument *qml = QmlDocument::create("asset:///twitterlogin.qml");
-	qml->setContextProperty("loginLayout", this);
-
-	Control *root = qml->createRootObject<Control>();
-	this->setRoot(root);
-
 	VimeoAuth *auth = VimeoAuth::instance();
 
-	connect(auth, SIGNAL(loginComplete(bool)), this, SLOT(onLoginResponse(bool)));
+	connect(auth, SIGNAL(loginComplete(bool)), (Searcher *)this, SLOT(onLoginResponse(bool)));
 	connect(auth, SIGNAL(urlReady(QUrl)), this, SLOT(setUrl(QUrl)));
+
+	// TODO: add (VimeoAuth::instance()->checkToken()) check
 	VimeoAuth::instance()->getAccess();
-	disconnect(auth, SIGNAL(loginComplete(bool)),this,SLOT(onLoginResponse(bool)));
-	//disconnect(auth, SIGNAL(urlReady(QUrl)), this, SLOT(setUrl(QUrl)));
+	disconnect(auth, SIGNAL(loginComplete(bool)), (Searcher *)this, SLOT(onLoginResponse(bool)));
+	disconnect(auth, SIGNAL(urlReady(QUrl)), this, SLOT(setUrl(QUrl)));
 
 	m_model = new GroupDataModel();
 	//m_dataSource = new bb::data::DataSource();// DataSource();
@@ -37,8 +33,15 @@ Searcher::Searcher() {
     //connect(m_dataSource, SIGNAL(dataLoaded(QVariant)), this, SLOT(dataLoaded(QVariant)));
 }
 
+QObject* Searcher::webView() {
+	return m_webView;
+}
+
+void Searcher::setWebView(QObject *webView) {
+	m_webView = (WebView *)webView;
+}
+
 void Searcher::setUrl(QUrl authUrl) {
-	m_webView = this->root()->findChild<WebView*>("m_webView");
 	m_webView->setUrl(authUrl);
 }
 

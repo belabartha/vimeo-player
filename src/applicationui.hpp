@@ -4,6 +4,7 @@
 
 #include <QObject>
 #include "VimeoManager.h"
+#include "Searcher.hpp"
 
 namespace bb { namespace cascades { class Application; }}
 
@@ -17,10 +18,11 @@ class ApplicationUI : public QObject
     Q_OBJECT
 public:
     ApplicationUI(bb::cascades::Application *app);
-    virtual ~ApplicationUI() {}
+    virtual ~ApplicationUI();
 
 private:
 	VimeoManager * vimeoManager;
+	Searcher *searcher;
 };
 
 #endif /* ApplicationUI_HPP_ */

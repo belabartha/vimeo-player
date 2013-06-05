@@ -38,9 +38,6 @@ Q_DECL_EXPORT int main(int argc, char **argv)
         app.installTranslator( &translator );
     }
 
-    Searcher *searcher = new Searcher();
-
-
     // create the application pane object to init UI etc.
     new ApplicationUI(&app);
 
