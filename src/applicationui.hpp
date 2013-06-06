@@ -4,7 +4,7 @@
 
 #include <QObject>
 #include "VimeoManager.h"
-#include "Searcher.hpp"
+#include "VimeoAuthorizer.hpp"
 
 namespace bb { namespace cascades { class Application; }}
 
@@ -22,7 +22,7 @@ public:
 
 private:
 	VimeoManager * vimeoManager;
-	Searcher *searcher;
+	VimeoAuthorizer *authorizer;
 };
 
 #endif /* ApplicationUI_HPP_ */

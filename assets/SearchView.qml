@@ -24,36 +24,4 @@ Page {
             }
         }
     }
-    attachedObjects: [
-        Sheet {
-            id: loginView
-            Page {
-                titleBar: TitleBar {
-                    title: "Authorize application"
-                    visibility: ChromeVisibility.Visible
-
-                    dismissAction: ActionItem {
-                        title: "Done"
-                        onTriggered: {
-                            loginView.close();
-                        }
-                    }
-                }
-                Container {
-                    WebView {
-                        id: webView
-                        objectName: "webView"
-                        onUrlChanged: {
-                            console.log("QML: loginView should be opened shortly...");
-                            loginView.open();
-                        }
-                    }
-                }
-            }
-        }
-    ]
-    onCreationCompleted: {
-        console.log("QML: set WebView");
-        vimeoSearcher.webView = webView;
-    }
 }

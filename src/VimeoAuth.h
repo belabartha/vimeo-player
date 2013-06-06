@@ -28,7 +28,7 @@ public:
 	void addAuthStrings(QUrl *url);
 
 	void getAccess();
-	bool checkToken();
+	bool authIsNeeded();
 	//api methods
 	void addAuth(KQOAuthRequest* req);
 

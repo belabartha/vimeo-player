@@ -10,9 +10,6 @@
 // this feature is enabled by default in the debug build only
 #include <Qt/qdeclarativedebug.h>
 
-// TEMP
-#include "Searcher.hpp"
-
 using namespace bb::cascades;
 
 // used to output debug messages when not in debug mode

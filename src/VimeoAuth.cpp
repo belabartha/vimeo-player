@@ -110,7 +110,7 @@ void VimeoAuth::getAccess()
     oauthManager->executeRequest(oauthRequest);
 }
 
-bool VimeoAuth::checkToken() {
+bool VimeoAuth::authIsNeeded() {
 	return oauthSettings.value("oauth_token_secret").toString().isEmpty() || oauthSettings.value("oauth_token").toString().isEmpty();
 }
 void VimeoAuth::addAuth(KQOAuthRequest* req) {

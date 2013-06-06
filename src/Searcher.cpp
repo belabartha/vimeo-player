@@ -1,71 +1,31 @@
 /*
  * Searcher.cpp
  *
- *  Created on: May 30, 2013
+ *  Created on: Jun 6, 2013
  *      Author: admin
  */
 
 #include "Searcher.hpp"
-#include <QUrl>
-#include "VimeoAuth.h"
-
-using namespace bb::cascades;
-using namespace bb::data;
 
 Searcher::Searcher() {
-
-	VimeoAuth *auth = VimeoAuth::instance();
-
-	connect(auth, SIGNAL(loginComplete(bool)), (Searcher *)this, SLOT(onLoginResponse(bool)));
-	connect(auth, SIGNAL(urlReady(QUrl)), this, SLOT(setUrl(QUrl)));
-
-	// TODO: add (VimeoAuth::instance()->checkToken()) check
-	VimeoAuth::instance()->getAccess();
-	disconnect(auth, SIGNAL(loginComplete(bool)), (Searcher *)this, SLOT(onLoginResponse(bool)));
-	disconnect(auth, SIGNAL(urlReady(QUrl)), this, SLOT(setUrl(QUrl)));
-
 	m_model = new GroupDataModel();
 	//m_dataSource = new bb::data::DataSource();// DataSource();
 
 	m_model->setGrouping(ItemGrouping::None);
 	//m_dataSource->setQuery(QLatin1String("/rsp/videos"));
 
-    //connect(m_dataSource, SIGNAL(dataLoaded(QVariant)), this, SLOT(dataLoaded(QVariant)));
+	//connect(m_dataSource, SIGNAL(dataLoaded(QVariant)), this, SLOT(dataLoaded(QVariant)));
 }
 
-QObject* Searcher::webView() {
-	return m_webView;
-}
-
-void Searcher::setWebView(QObject *webView) {
-	m_webView = (WebView *)webView;
-}
-
-void Searcher::setUrl(QUrl authUrl) {
-	m_webView->setUrl(authUrl);
+Searcher::~Searcher() {
+	delete m_model;
+	delete m_dataSource;
 }
 
 void Searcher::dataLoaded(const QVariant &data)
 {
     m_model->clear();
     m_model->insertList(data.toList());
-}
-
-void Searcher::onLoginResponse(bool success) {
-	if(success) {
-		qDebug() << "Vimeo login Succeeded!";
-	} else {
-		qDebug() << "Vimeo login failure!";
-	}
-
-	VimeoAuth *auth = VimeoAuth::instance();
-
-	disconnect(auth, SIGNAL(loginComplete(bool)),this,SLOT(onLoginResponse(bool)));
-}
-
-Searcher::~Searcher() {
-	delete m_model;
-	delete m_dataSource;
 }
 
 static QUrl assembleSearchURL(const QString &searchString) {

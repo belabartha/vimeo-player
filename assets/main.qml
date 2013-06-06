@@ -41,5 +41,36 @@ TabbedPane {
         // enable layout to adapt to the device rotation
         // don't forget to enable screen rotation in bar-bescriptor.xml (Application->Orientation->Auto-orient)
         OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.All;
+
+        vimeoAuthorizer.webView = webView;
     }
+
+    attachedObjects: [
+        Sheet {
+            id: loginView
+            Page {
+                titleBar: TitleBar {
+                    title: "Authorize application"
+                    visibility: ChromeVisibility.Visible
+
+                    dismissAction: ActionItem {
+                        title: "Done"
+                        onTriggered: {
+                            loginView.close();
+                        }
+                    }
+                }
+                Container {
+                    WebView {
+                        id: webView
+                        objectName: "webView"
+                        onUrlChanged: {
+                            console.log("QML: loginView should be opened shortly...");
+                            loginView.open();
+                        }
+                    }
+                }
+            }
+        }
+    ]
 }
