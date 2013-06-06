@@ -96,8 +96,7 @@ void VimeoAuth::onRequestReady(QByteArray response) {
     disconnect(oauthManager, SIGNAL(requestReady(QByteArray)), this, SLOT(onRequestReady(QByteArray)));
 }
 
-void VimeoAuth::getAccess()
-{
+void VimeoAuth::getAccess() {
     connect(oauthManager, SIGNAL(temporaryTokenReceived(QString,QString)), this, SLOT(onTemporaryTokenReceived(QString, QString)));
     connect(oauthManager, SIGNAL(authorizationReceived(QString,QString)), this, SLOT( onAuthorizationReceived(QString, QString)));
     connect(oauthManager, SIGNAL(accessTokenReceived(QString,QString)), this, SLOT(onAccessTokenReceived(QString, QString)));
@@ -119,6 +118,27 @@ void VimeoAuth::addAuth(KQOAuthRequest* req) {
 	req->setToken(oauthSettings.value("oauth_token").toString());
 	req->setTokenSecret(oauthSettings.value("oauth_token_secret").toString());
 	qDebug() << oauthSettings.value("oauth_token_secret").toString() << " + " << oauthSettings.value("oauth_token").toString();
+}
+
+KQOAuthRequest* VimeoAuth::createSearchRequest(const QString &searchString) {
+	KQOAuthRequest *xRequest = new KQOAuthRequest(this);
+	if(!authIsNeeded()) {
+		QUrl url(API_BASE);
+		xRequest->initRequest(KQOAuthRequest::AuthorizedRequest, url);
+		KQOAuthParameters params;
+		params.insert("format", "xml");
+		params.insert("method", "vimeo.videos.search");
+		params.insert("query", searchString);
+		xRequest->setAdditionalParameters(params);
+		addAuth(xRequest);
+		xRequest->setHttpMethod(KQOAuthRequest::GET);
+	}
+	return xRequest;
+}
+
+
+KQOAuthManager* VimeoAuth::getRequestManager() {
+	return oauthManager;
 }
 
 /*void VimeoAuth::logout() {

@@ -12,6 +12,9 @@ Page {
                 verticalAlignment: VerticalAlignment.Top
                 input {
                     submitKey: SubmitKey.Search
+                    onSubmitted: {
+                    	searcher.searchString = text
+                    }
                 }
             }
         }

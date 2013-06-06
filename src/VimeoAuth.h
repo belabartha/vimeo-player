@@ -29,6 +29,10 @@ public:
 
 	void getAccess();
 	bool authIsNeeded();
+
+	KQOAuthRequest* createSearchRequest(const QString &searchString);
+	KQOAuthManager* getRequestManager();
+
 	//api methods
 	void addAuth(KQOAuthRequest* req);
 
@@ -45,8 +49,8 @@ private:
 	static VimeoAuth* m_instance;
 
 signals:
-		void loginComplete(bool);
-		void urlReady(QUrl);
+	void loginComplete(bool);
+	void urlReady(QUrl);
 
 private slots:
 	void onTemporaryTokenReceived(QString temporaryToken, QString temporaryTokenSecret);

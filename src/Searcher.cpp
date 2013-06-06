@@ -6,15 +6,18 @@
  */
 
 #include "Searcher.hpp"
+#include <oauth/kqoauthrequest_xauth.h>
+#include <oauth/kqoauthrequest.h>
+#include <oauth/kqoauthmanager.h>
 
 Searcher::Searcher() {
 	m_model = new GroupDataModel();
-	//m_dataSource = new bb::data::DataSource();// DataSource();
+	m_dataSource = new DataSource();
 
 	m_model->setGrouping(ItemGrouping::None);
-	//m_dataSource->setQuery(QLatin1String("/rsp/videos"));
+	m_dataSource->setQuery(QLatin1String("/rsp/videos"));
 
-	//connect(m_dataSource, SIGNAL(dataLoaded(QVariant)), this, SLOT(dataLoaded(QVariant)));
+	connect(m_dataSource, SIGNAL(dataLoaded(QVariant)), this, SLOT(dataLoaded(QVariant)));
 }
 
 Searcher::~Searcher() {
@@ -54,9 +57,43 @@ void Searcher::setSearchString(const QString &searchString) {
        return;
 
     m_searchString = searchString;
-    //emit searchStringChanged();
+    emit searchStringChanged();
 
-    //m_dataSource-setSource(assembleSearchURL(m_searchString));
-    //m_dataSource->load();
+    qDebug() << "SearchString: " << searchString;
+
+    KQOAuthRequest* req = VimeoAuth::instance()->createSearchRequest(searchString);
+
+    makeRequest(req);
+
+/*    m_dataSource->setSource(*reqString);
+    m_dataSource->load();*/
+}
+
+void Searcher::makeRequest(KQOAuthRequest *request) {
+
+	KQOAuthManager *manager = VimeoAuth::instance()->getRequestManager();
+
+	connect(manager, SIGNAL(requestReady(QByteArray)), this, SLOT(onRequestCallback(QByteArray)));
+	request->setEnableDebugOutput(true);
+	VimeoAuth::instance()->getRequestManager()->executeRequest(request);
+}
+
+void Searcher::onRequestCallback(QByteArray resp) {
+
+	KQOAuthManager *manager = VimeoAuth::instance()->getRequestManager();
+	disconnect(manager, SIGNAL(requestReady(QByteArray)), this, SLOT(onRequestCallback(QByteArray)));
+	//if(resp.isEmpty()) {
+		//error need to tell the UI
+		//return;
+	//}
+	//response->parse(resp);
+	qDebug() << resp;
+	 /*if(response->getType() == ApiResponseObjectFactory::Empty){
+		emit requestComplete(NULL);
+	} else if(response->getResponse() != NULL) {
+		emit requestComplete(response->getResponse());
+	} else {
+		emit requestError(response->getMeta());
+	}*/
 }
 

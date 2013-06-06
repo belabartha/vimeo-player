@@ -12,12 +12,14 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app)
 {
 	vimeoManager = new VimeoManager ();
 	authorizer = new VimeoAuthorizer();
+	searcher = new Searcher();
     // create scene document from main.qml asset
     // set parent to created document to ensure it exists for the whole application lifetime
     QmlDocument *qml = QmlDocument::create("asset:///main.qml").parent(this);
 
     qml->setContextProperty("_vimeoManager", vimeoManager);
     qml->setContextProperty("vimeoAuthorizer", authorizer);
+    qml->setContextProperty("searcher", searcher);
 
     // create root object for the UI
     AbstractPane *root = qml->createRootObject<AbstractPane>();
@@ -28,4 +30,5 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app)
 ApplicationUI::~ApplicationUI() {
 	delete vimeoManager;
 	delete authorizer;
+	delete searcher;
 }

@@ -12,6 +12,8 @@
 #include <bb/cascades/GroupDataModel>
 #include <bb/data/DataSource>
 
+#include "VimeoAuth.h"
+
 using namespace bb::cascades;
 using namespace bb::data;
 
@@ -24,11 +26,14 @@ public:
 	Searcher();
 	virtual ~Searcher();
 
+	void makeRequest(KQOAuthRequest *request);
+
 signals:
     void searchStringChanged();
 
 private slots:
 	void dataLoaded(const QVariant &data);
+	void onRequestCallback(QByteArray resp);
 private:
 	GroupDataModel *m_model;
 
