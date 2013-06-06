@@ -1,6 +1,8 @@
 import bb.cascades 1.0
 
 Page {
+    property alias video: webView.url
+
     Container {
         layout: DockLayout {}
 
@@ -10,22 +12,29 @@ Page {
 
             imageSource: "asset:///images/background.png"
         }
-        
-        Container {
-
-            horizontalAlignment: HorizontalAlignment.Fill
-            verticalAlignment: VerticalAlignment.Fill
-
-            layout: DockLayout {}
+    
+        ScrollView {
+            id: scrollView
+            scrollViewProperties {
+                scrollMode: ScrollMode.Both
+                pinchToZoomEnabled: true
+            }
+            layoutProperties: StackLayoutProperties {
+                spaceQuota: 1.0
+            }
 
             Container {
-                Label {
-                    text: qsTr("Player")
-                    horizontalAlignment: HorizontalAlignment.Center
-                    textStyle {
+                background: Color.LightGray
 
-                        base: SystemDefaults.TextStyles.TitleText
-                        color: Color.Gray
+                WebView {
+                    id: webView
+
+                    onMinContentScaleChanged: {
+                        scrollView.scrollViewProperties.minContentScale = minContentScale;
+                    }
+
+                    onMaxContentScaleChanged: {
+                        scrollView.scrollViewProperties.maxContentScale = maxContentScale;
                     }
                 }
             }

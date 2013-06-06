@@ -10,13 +10,10 @@ NavigationPane {
         function pushPane() {
             navigationPane.push(playerViewPage.createObject())
         }
-        
-        function initializePage () {
-            _vimeoManager.videosFromChannel()
-            _vimeoManager.videoDataReady.connect(pushPane)
-        }
 
-        onCreationCompleted: initializePage()
+        onCreationCompleted: {
+            _vimeoManager.videosFromChannel()
+        }
         
         Container {
 
@@ -38,8 +35,7 @@ NavigationPane {
                 rightPadding: 20
                 bottomPadding: 20
 
-                layout: DockLayout {
-                }
+                layout: DockLayout {}
 
                 Container {
 
@@ -54,6 +50,7 @@ NavigationPane {
                     }
 
                     ListView {
+                        objectName: "channelList"
                         dataModel: _vimeoManager.model
 
                         listItemComponents: [
@@ -61,15 +58,22 @@ NavigationPane {
                                 type: "item"
                                 VideoItem {
                                     title: ListItemData.title
-                                    description: ListItemData.url
+                                    description: ListItemData.formattedDuration
+                                    thumbnail:ListItemData.thumbnail
                                 }
                             }
                         ]
 
                         onTriggered: {
+
+                            var selectedItem = dataModel.data(indexPath);
+
                             clearSelection()
                             select(indexPath)
-                            _vimeoManager.playVideoData();
+
+                            var newPage = playerViewPage.createObject()
+                            newPage.video = selectedItem.mobile_url
+                            navigationPane.push(newPage);
                         }
                     }
                 }

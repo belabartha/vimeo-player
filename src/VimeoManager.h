@@ -9,7 +9,9 @@
 #define VIMEOMANAGER_H_
 
 #include <bb/cascades/GroupDataModel>
+#include <bb/cascades/Image>
 #include <bb/data/DataSource>
+#include <bb/ImageData>
 
 #include <QtCore/QObject>
 
@@ -21,22 +23,27 @@ public:
 	virtual ~VimeoManager();
 	VimeoManager();
 
-	Q_INVOKABLE void requestChannels();
 	Q_INVOKABLE void videosFromChannel();
-	Q_INVOKABLE void playVideoData ();
-
-Q_SIGNALS:
-    void videoDataReady ();
+	QByteArray downloadedData() const;
 
 private Q_SLOTS:
     void dataLoaded(const QVariant &data);
+    void fileDownloaded(QNetworkReply* pReply);
 
 private:
-
     bb::cascades::GroupDataModel* model() const;
 
     bb::cascades::GroupDataModel *m_model;
     bb::data::DataSource *m_dataSource;
+
+    QNetworkAccessManager m_networkManager;
+    QByteArray m_DownloadedData;
+
+    void downloadFile (QString path);
+    void fetchThumbnails ();
+    bb::ImageData fromQImage(const QImage &qImage);
+
+    QMap<QString, QString> thumbnailLocations;
 };
 
 #endif /* VIMEOMANAGER_H_ */
