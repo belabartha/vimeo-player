@@ -6,6 +6,7 @@ Container {
 
     property alias title: titleLabel.text
     property alias description: descriptionLabel.text
+    property alias thumbnail: thumbnail.image
 
     preferredWidth: 768
     preferredHeight: 200
@@ -20,36 +21,55 @@ Container {
     }
 
     Container {
-        horizontalAlignment: HorizontalAlignment.Left
-        leftPadding: 20
-        rightPadding: 20
 
-        Label {
+        layout: DockLayout {}
 
-            id: titleLabel
+		Container {
 
-            horizontalAlignment: HorizontalAlignment.Left
-            verticalAlignment: VerticalAlignment.Center
+            layout: DockLayout {}
+            
+            leftPadding: 10
+            topPadding: 25
+            
+            ImageView {
 
-            textStyle {
-                base: SystemDefaults.TextStyles.BodyText
-                color: Color.Gray
+                id: thumbnail
             }
-
-            multiline: true
         }
 
-        Label {
-            preferredHeight: 200
+        
+        Container {
+            
+            leftPadding: 220
+            topPadding: 25
+            
+            Label {
 
-            id: descriptionLabel
+                id: titleLabel
 
-            textStyle {
-                base: SystemDefaults.TextStyles.SmallText
-                color: Color.Gray
+                horizontalAlignment: HorizontalAlignment.Left
+                verticalAlignment: VerticalAlignment.Center
+
+                textStyle {
+                    base: SystemDefaults.TextStyles.BodyText
+                    color: Color.Gray
+                }
+
+                multiline: true
             }
 
-            multiline: true
+            Label {
+                preferredHeight: 200
+
+                id: descriptionLabel
+
+                textStyle {
+                    base: SystemDefaults.TextStyles.SmallText
+                    color: Color.Gray
+                }
+
+                multiline: true
+            }
         }
     }
 }

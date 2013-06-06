@@ -21,9 +21,10 @@ TabbedPane {
         }
     }
     Tab {
+        objectName: "channelView"
         title: qsTr("Channels")
         ChannelView {
-            
+        	
         }
     }
     Tab {
